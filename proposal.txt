@@ -1,0 +1,10 @@
+WireFrame: https://share.balsamiq.com/c/ioYzaSLb3Ahc4SXM2D246u.png
+Name: Brock Ericksen
+Stack: MERN
+GitHub Repo: https://github.com/BrockEricksen/SoloProject_CarMeets
+Project Name: Car Meets
+Project Description: A website that alows people to see upcoming events, add, update, and delete events. There will also be a featured cars page which will highlight a few cars with a description and more.
+MVP (Minimum Viable Product) Features: CRUD for the events page. Login and Reg w/ validations page.  
+Bonus Features: Use an api to get cars for the fatured cars page. Two possible ones I found are: 
+    - https://supercarsapi.docs.apiary.io/#reference/0/image/retrieve-image
+    - https://rapidapi.com/carstockpile-team-carstockpile-team-default/api/car-stockpile
