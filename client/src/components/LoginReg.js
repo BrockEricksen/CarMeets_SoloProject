@@ -1,11 +1,11 @@
 import React from "react";
 import Navbar from "./Navbar";
 
-const AddMeet = () => {
+const Login_Reg = () => {
 
     return(
         <div className="wrapper">
-            <h1>Create a New Meet</h1>
+            <h1>Log In / Register</h1>
             <div className="banner-home">
                 <Navbar/>
             </div>
@@ -16,4 +16,4 @@ const AddMeet = () => {
     );
 };
 
-export default AddMeet;
+export default Login_Reg;
