@@ -20,9 +20,11 @@ const CarMeetSchema = {
   },
 
   meetDate: {
-    type: Date,
+    type: String,
     required: [true, "Date is required!"],
-    minLength: [3, "Date must include day, month, year!"],
+    minLength: [6, "Date must be in month/day/year format!"],
+    // min: Date.now(),
+    // max: 2030-01-01,  was getting weird bug so for now disabled
   },
 
   meetTime: {
