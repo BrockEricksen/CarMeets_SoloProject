@@ -43,7 +43,6 @@ const CarMeetSchema = {
     type: String,
     required: [false],
   },
-
 };
 
 module.exports = mongoose.model("Meet", CarMeetSchema);

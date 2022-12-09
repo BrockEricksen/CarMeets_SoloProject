@@ -1,8 +1,8 @@
-const Pet = require("../models/carmeets.model");
+const Meet = require("../models/carmeets.model");
 
 // Create
 const createNewMeet = (req, res) => {
-  Pet.create(req.body)
+  Meet.create(req.body)
     .then((newMeet) => {
       res.json({ newMeet });
     })
@@ -13,7 +13,7 @@ const createNewMeet = (req, res) => {
 
 // Read all
 const getAllMeets = (req, res) => {
-  Pet.find()
+  Meet.find()
     .then((allMeets) => {
       res.json(allMeets);
     })
@@ -24,7 +24,7 @@ const getAllMeets = (req, res) => {
 
 // Read one
 const getOneMeet = (req, res) => {
-  Pet.findOne({ _id: req.params.id })
+  Meet.findOne({ _id: req.params.id })
     .then((queriedMeet) => {
       res.json(queriedMeet);
     })
@@ -35,7 +35,7 @@ const getOneMeet = (req, res) => {
 
 // Update
 const updateMeet = (req, res) => {
-  Pet.findOneAndUpdate({ _id: req.params.id }, req.body, {
+  Meet.findOneAndUpdate({ _id: req.params.id }, req.body, {
     new: true,
     runValidators: true,
   })
@@ -49,7 +49,7 @@ const updateMeet = (req, res) => {
 
 // Delete
 const deleteExistingMeet = (req, res) => {
-  Pet.deleteOne({ _id: req.params.id })
+  Meet.deleteOne({ _id: req.params.id })
     .then((deletedResponse) => {
       res.json({ deletedResponse });
     })
