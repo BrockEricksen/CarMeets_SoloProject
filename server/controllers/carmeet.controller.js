@@ -2,7 +2,7 @@ const Meet = require("../models/carmeets.model");
 
 // Create
 const createNewMeet = (req, res) => {
-  Meet.create(req.body)
+  Meet.create(req.body) // could add --> meetHost: req.Token.id    to make it auto set
     .then((newMeet) => {
       res.json({ newMeet });
     })

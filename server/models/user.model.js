@@ -29,19 +29,21 @@ const UserSchema = new mongoose.Schema({
     }
 }, {timestamps: true});
 
-
-UserSchema.virtual('confirmPassword') // using virtual field for confirm password
+// Virtual field for confirm password so it doesnt save to db
+UserSchema.virtual('confirmPassword')
     .get( () => this._confirmPassword )
     .set( value => this._confirmPassword = value );
-  
+
+// Middleware
 UserSchema.pre('validate', function(next) { // validator to compare password and confirm password
     if (this.password !== this.confirmPassword) {
         this.invalidate('confirmPassword', 'Password must match confirm password!');
     }
     next();
 });
-  
-UserSchema.pre('save', function(next) { // using bcrypt to hash user password so it is not saved in plain text
+
+// Using bcrypt to hash user password so it is not saved in plain text
+UserSchema.pre('save', function(next) {
     bcrypt.hash(this.password, 10)
         .then(hash => {
             this.password = hash;
@@ -49,6 +51,4 @@ UserSchema.pre('save', function(next) { // using bcrypt to hash user password so
         });
 });
 
-const User = mongoose.model("User", UserSchema);
-
-module.exports = User
+module.exports = mongoose.model("User", UserSchema);

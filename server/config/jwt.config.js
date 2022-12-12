@@ -1,33 +1,28 @@
 const jwt = require("jsonwebtoken");
 const User = require('../models/user.model')
-const secret = process.env.SECRET_KEY; // MIGHT NEED TO CHANGE THIS... TBD
-
-module.exports.secret = secret;
+const secret = process.env.SECRET_KEY;
 
 module.exports = {
 
     authenticate: (req, res, next) => {
-        console.log(req.cookies.usertoken, " <-- is the usertoken, line 10 in jwt.config for authenticate")
-        jwt.verify(req.cookies.usertoken, secret, (err, payload) => {
-            if (err) { 
+        jwt.verify(req.cookies.userToken, secret, (err, payload) => {
+            if (err) {
+                console.log('User not authorized: jwt config.')
                 res.status(401).json({verified: false});
             } else {
+                console.log('Auth success: jwt config.')
                 req.Token = payload
                 next();
             }
         })
     },
 
-    isLoggedIn: (req, res) => {
-        console.log(req.cookies, " <-- is the cookies, line 22 in jwt.config for isLoggedIn")
-        jwt.verify(req.cookies.usertoken, secret, async (err, payload) => {
-            if (err) { 
-                res.status(401).json({verified: false});
-            } else {
-                const user = await User.findOne({_id: payload.id})
-                const {_id,firstName} = user
-                return res.json({user:{id: _id, name: firstName}})
-            }
-        })
-    },
-}
+    isLoggedIn: async (req, res) => {
+        const decodedJWT = jwt.decode(req.cookies.userToken, {complete: true });
+        User.findById(decodedJWT.payload._id)
+        .then(user => 
+            res.json({user:user}))
+        .catch(err =>
+            res.status(400).json({message: 'Unauthorized'}));
+    }
+};
