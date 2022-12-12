@@ -1,24 +1,33 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Navbar from "./Navbar";
+import Footer from "./Footer";
 
-const Meets = () => {
+const Meets = (props) => {
     const [allMeets, setAllMeets] = useState([]);
+    const [loggedUser, setLoggedUser] = useState("")
+    const navigate = useNavigate();
 
     useEffect(() => {
-        axios
-        .get("http://localhost:8000/api/meet")
-        .then((response) => {
-            setAllMeets(response.data);
-        })
-        .catch((err) => {
-            console.log(err.response);
+        axios.get('http://localhost:8000/api/getLoggedUser', {withCredentials:true})
+            .then((res)=>(
+                console.log(res),
+                setLoggedUser({id:res.data.user._id, firstName:res.data.user.firstName})
+            )).catch((err)=>(
+                console.log(err)
+            ))
+        axios.get("http://localhost:8000/api/meet",{withCredentials:true})
+            .then((response) => {
+                setAllMeets(response.data);
+            })
+            .catch((err) => {
+                console.log(err.response);
         });
     }, []);
 
-    const deleteHandler = (one_id) => {
-        axios.delete(`http://localhost:8000/api/meet/${one_id}`)
+    const deleteHandler = (one_id) => { // delete one meet by id
+        axios.delete(`http://localhost:8000/api/meet/${one_id}`,{withCredentials:true})
             .then((res) => {
                 const newMeetList = allMeets.filter((meet) => {
                     return meet._id !== one_id;
@@ -30,16 +39,37 @@ const Meets = () => {
             });
     };
 
+    const handleLogout = (e) => {
+        axios.post('http://localhost:8000/api/logout',{}, {withCredentials:true})
+        .then((res)=>{
+            console.log('Logged out on front end')
+            navigate('/login')
+        }).catch((err)=>{
+            console.log(err)
+        })
+    };
+
     return(
         <div className="wrapper">
             <h1>Upcoming Events</h1>
-            <div className="banner-home">
-                <Navbar/>
-                <Link to="/new">Add Event</Link>
-            </div>
-
+            <div className="banner-home"><Navbar/></div>
+            {loggedUser ? (
+                    <div>
+                        <p style={{color: 'green'}}>Logged in as: {loggedUser.firstName}</p>
+                        <button className = "btn hover" onClick={handleLogout}>Logout</button>
+                        <div>
+                            <Link to="/new">Add Event</Link>
+                        </div>
+                    </div>
+                ) : (
+                <div>
+                    <p style={{color: 'red'}}>Please login/register to view this page!.</p>
+                    <Link className="link" to="/login">Login | </Link>
+                    <Link className="link" to="/register">Register</Link>
+                </div>
+                )}
             <div className="one-meet">
-                {allMeets.map((meet, index) => {
+                {allMeets.map((meet, index) => { // maps through all meets in database
                     return (
                         <p key={meet._id}>
                             <p>Car Meet: {meet.meetName}</p>
@@ -55,10 +85,7 @@ const Meets = () => {
                         );
                     })}
             </div>
-
-            <footer>
-                <p> Copyright &copy; 2022 Designed By: Brock Ericksen &nbsp; | &nbsp; Email: <a href="mailto:brockericksen@gmail.com">brockericksen@gmail.com</a></p>
-            </footer>
+            <Footer/>
         </div>
     );
 };

@@ -1,21 +1,55 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import {useState, useEffect} from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from 'axios';
 import Navbar from "./Navbar";
+import Footer from "./Footer";
 
-const Home = () => {
+const Home = (props) => {
+    const [loggedUser, setLoggedUser] = useState("");
+    const navigate = useNavigate();
+
+    useEffect(()=>{
+        axios.get('http://localhost:8000/api/getLoggedUser', {withCredentials:true})
+            .then((res)=>(
+                console.log(res),
+                setLoggedUser({id:res.data.user._id, firstName:res.data.user.firstName})
+            )).catch((err)=>(
+                console.log(err)
+            ))
+    }, [])
+
+    const handleLogout = (e) => {
+        axios.post('http://localhost:8000/api/logout',{}, {withCredentials:true})
+        .then((res)=>{
+            console.log('Logged out on front end')
+            navigate('/login')
+        }).catch((err)=>{
+            console.log(err)
+        })
+    }
 
     return(
         <div className="wrapper">
             <h1>Car Meets</h1>
             <div className="banner-home">
                 <Navbar/>
-                <Link className="link" to="/login_reg">Login | </Link>
-                <Link className="link" to="/login_reg">Register</Link>
+                {/* <Link className="link" to="/login">Login | </Link>
+                <Link className="link" to="/register">Register</Link> */}
+                {loggedUser ? (
+                    <div>
+                        <p style={{color: 'green'}}>Logged in as: {loggedUser.firstName}</p>
+                        <button className = "btn hover" onClick={handleLogout}>Logout</button>
+                    </div>
+                ) : (
+                <div>
+                    <Link className="link" to="/login">Login | </Link>
+                    <Link className="link" to="/register">Register</Link>
+                    {/* <p style={{color: 'red'}}>Please log in to continue.</p> */}
+                </div>
+                )}
             </div>
             <div className="home-background"></div>
-            <footer>
-                <p> Copyright &copy; 2022 Designed By: Brock Ericksen &nbsp; | &nbsp; Email: <a href="mailto:brockericksen@gmail.com">brockericksen@gmail.com</a></p>
-            </footer>
+            <Footer/>
         </div>
     );
 };
