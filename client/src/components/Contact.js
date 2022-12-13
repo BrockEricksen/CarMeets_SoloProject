@@ -1,7 +1,10 @@
 import React from "react";
 import Navbar from "./Navbar";
+import Footer from "./Footer";
+import { useNavigate } from "react-router-dom";
 
 const Contact = () => {
+    const navigate = useNavigate();
 
     return(
         <div className="wrapper">
@@ -9,9 +12,22 @@ const Contact = () => {
             <div className="banner-home">
                 <Navbar/>
             </div>
-            <footer>
-                <p> Copyright &copy; 2022 Designed By: Brock Ericksen &nbsp; | &nbsp; Email: <a href="mailto:brockericksen@gmail.com">brockericksen@gmail.com</a></p>
-            </footer>
+            <div className="contact-form">
+            <form className="contact-form" onSubmit={navigate('/')}>
+                    <div className="login-email-input">
+                        <p>Email: </p>
+                        <input className="form-control" name="email" type="email" />
+                    </div>
+                    <div className="login-password-input">
+                        <p>Comments or Feedback: </p>
+                        <textarea className="form-control" name="feedback" rows={"5"} cols={"40"}/>
+                    </div>
+                    <div className="row">
+                        <button className="btn hover hover-success" type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+            <Footer/>
         </div>
     );
 };

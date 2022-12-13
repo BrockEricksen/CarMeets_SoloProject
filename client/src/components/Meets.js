@@ -85,7 +85,7 @@ const Meets = (props) => {
                         );
                     })}
             </div>
-            <Footer/>
+            {/* <Footer/> */}
         </div>
     );
 };
