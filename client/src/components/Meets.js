@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
@@ -7,7 +7,6 @@ import Footer from "./Footer";
 const Meets = (props) => {
     const [allMeets, setAllMeets] = useState([]);
     const [loggedUser, setLoggedUser] = useState("")
-    const navigate = useNavigate();
 
     useEffect(() => {
         axios.get('http://localhost:8000/api/getLoggedUser', {withCredentials:true})
@@ -39,53 +38,77 @@ const Meets = (props) => {
             });
     };
 
-    const handleLogout = (e) => {
-        axios.post('http://localhost:8000/api/logout',{}, {withCredentials:true})
-        .then((res)=>{
-            console.log('Logged out on front end')
-            navigate('/login')
-        }).catch((err)=>{
-            console.log(err)
-        })
-    };
-
     return(
         <div className="wrapper">
-            <h1>Upcoming Events</h1>
-            <div className="banner-home"><Navbar/></div>
+            <h1 className="text-center text-4xl">Upcoming Events</h1>
+            <Navbar/>
+
             {loggedUser ? (
-                    <div>
-                        <p style={{color: 'green'}}>Logged in as: {loggedUser.firstName}</p>
-                        <button className = "btn hover" onClick={handleLogout}>Logout</button>
-                        <div>
-                            <Link to="/new">Add Event</Link>
-                        </div>
-                    </div>
+                <button className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"><Link to="/new">Add Event</Link></button>
                 ) : (
                 <div>
-                    <p style={{color: 'red'}}>Please login/register to view this page!.</p>
-                    <Link className="link" to="/login">Login | </Link>
-                    <Link className="link" to="/register">Register</Link>
+                    <p className="text-center text-xl text-red-500">Please login/register to view this page!</p>
                 </div>
                 )}
-            <div className="one-meet">
-                {allMeets.map((meet, index) => { // maps through all meets in database
-                    return (
-                        <p key={meet._id}>
-                            <p>Car Meet: {meet.meetName}</p>
-                            <p>Host: {meet.meetHost}</p>
-                            <p>Location: {meet.meetLocation}</p>
-                            <p>Date: {meet.meetDate}</p>
-                            <p>Time: {meet.meetTime}</p>
-                            <p>Description: {meet.description}</p>
-                            <p>Host Socials: {meet.socials}</p>
-                            <Link to={`/edit/${meet._id}`}> Edit&nbsp; | </Link>
-                            <Link onClick={()=>deleteHandler(meet._id)}> &nbsp;Delete</Link>
-                        </p>
-                        );
-                    })}
+
+            <div class="flex flex-col">
+                <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                    <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+                        <div class="overflow-hidden">
+                            <table class="min-w-full">
+                                <thead class="border-b">
+                                    <tr>
+                                        <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                            Meet Name
+                                        </th>
+                                        <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                            Host
+                                        </th>
+                                        <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                            Location
+                                        </th>
+                                        <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                            Date
+                                        </th>
+                                        <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                            Time
+                                        </th>
+                                        <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                            Description
+                                        </th>
+                                        <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                            Host's socials
+                                        </th>
+                                        <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                            Actions
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {allMeets.map((meet, index) => { // maps through all meets in database
+                                return ( 
+                                <tr className="border-b" key={meet._id}>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{meet.meetName}</td>
+                                    <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{meet.meetHost}</td>
+                                    <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{meet.meetLocation}</td>
+                                    <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{meet.meetDate}</td>
+                                    <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{meet.meetTime}</td>
+                                    <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{meet.description}</td>
+                                    <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{meet.socials}</td>
+                                    <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                        <Link to={`/edit/${meet._id}`}> Edit&nbsp; | </Link>
+                                        <Link onClick={()=>deleteHandler(meet._id)}> &nbsp;Delete</Link>
+                                    </td>
+                                </tr>
+                                );
+                                })}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
-            {/* <Footer/> */}
+            <Footer/>
         </div>
     );
 };

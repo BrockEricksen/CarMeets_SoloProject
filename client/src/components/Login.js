@@ -2,10 +2,10 @@ import {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import Navbar from "./Navbar";
+import Footer from './Footer';
 
 const Login = (props) => {
     const [input, setInput] = useState({});
-    const [loggedUser, setLoggedUser] = useState("");
     const navigate = useNavigate();
 
     const submitHandler = (e)=>{
@@ -25,35 +25,24 @@ const Login = (props) => {
 
     return(
         <div className="wrapper">
-            <h1>Log In</h1>
-            <div className="banner-home">
-                <Navbar/>
-            </div>
-            
-            {loggedUser ? (
-                <p style={{color: 'red'}}>Successfully logged in!</p>
-            ) : (
-            <div>
-                <h3>Login</h3>
-                <form className="login-form" onSubmit={submitHandler}>
-                    <div className="login-email-input">
-                        <label>Email: </label>
-                        <input className="form-control" onChange={changeHandler} value={input.email} name="email" type="email" />
+            <h1 className='text-center text-4xl'>Log In</h1>
+            <Navbar/>
+            <div className="flex justify-center mr-auto">
+                <form className="bg-slate-200 shadow-md rounded px-8 pt-6 pb-8 mb-4 w-1/3" onSubmit={submitHandler}>
+                    <div className="mb-4">
+                        <label className="block text-gray-700 text-sm font-bold mb-2">Email</label>
+                        <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={changeHandler} value={input.email} name="email" type="email"/>
                     </div>
-                    <div className="login-password-input">
-                        <label>Password: </label>
-                        <input className="form-control" onChange={changeHandler} value={input.password} name="password" type="password" />
+                    <div className="mb-6">
+                        <label className="block text-gray-700 text-sm font-bold mb-2">Password</label>
+                        <input className="shadow appearance-none border border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" onChange={changeHandler} value={input.password} name="password" type="password"/>
                     </div>
-                    <div className="row">
-                        <button className="btn hover hover-success" type="submit">Login</button>
+                    <div className="flex items-center justify-between">
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">Sign In</button>
                     </div>
                 </form>
             </div>
-            )}
-
-            <footer>
-                <p> Copyright &copy; 2022 Designed By: Brock Ericksen &nbsp; | &nbsp; Email: <a href="mailto:brockericksen@gmail.com">brockericksen@gmail.com</a></p>
-            </footer>
+            <Footer/>
         </div>
     );
 };

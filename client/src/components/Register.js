@@ -2,6 +2,7 @@ import {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import Navbar from "./Navbar";
+import Footer from './Footer';
 
 const Register = (props) => {
     const navigate = useNavigate()
@@ -30,41 +31,36 @@ const Register = (props) => {
 
     return(
         <div className="wrapper">
-            <h1>Register: </h1>
-            <div className="banner-home">
-                <Navbar/>
+            <h1 className='text-center text-4xl'>Register: </h1>
+            <Navbar/>
+            <div className="flex justify-center mr-auto">
+                <form className="bg-slate-200 shadow-md rounded px-8 pt-6 pb-8 mb-4 w-1/3" onSubmit={submitHandler}>
+                    <div className="mb-4">
+                        <label className="block text-gray-700 text-sm font-bold mb-2">First Name</label>
+                        <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e)=>setFirstName(e.target.value)} value={firstName} name="firstName" type="text"/>
+                    </div>
+                    <div className="mb-4">
+                        <label className="block text-gray-700 text-sm font-bold mb-2">Last Name</label>
+                        <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e)=>setLastName(e.target.value)} value={lastName} name="lastName" type="text"/>
+                    </div>
+                    <div className="mb-4">
+                        <label className="block text-gray-700 text-sm font-bold mb-2">Email</label>
+                        <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" onChange={(e)=>setEmail(e.target.value)} value={email} name="email" type="email"/>
+                    </div>
+                    <div className="mb-4">
+                        <label className="block text-gray-700 text-sm font-bold mb-2">Password</label>
+                        <input className="shadow appearance-none border border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" onChange={(e)=>setPassword(e.target.value)} value={password} name="password" type="password"/>
+                    </div>
+                    <div className="mb-6">
+                        <label className="block text-gray-700 text-sm font-bold mb-2">Confirm Password</label>
+                        <input className="shadow appearance-none border border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" onChange={(e)=>setConfirmPassword(e.target.value)} value={confirmPassword} name="confirmPassword" type="password"/>
+                    </div>
+                    <div className="flex items-center justify-between">
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">Register</button>
+                    </div>
+                </form>
             </div>
-
-            <form className="" onSubmit={submitHandler}>
-                <div className="">
-                    <label htmlFor="">First Name:</label>
-                    <input className="form-control" onChange={(e)=>setFirstName(e.target.value)} value={firstName} name="firstName" type="text" />
-                </div>
-                <div className="">
-                    <label htmlFor="">Last Name:</label>
-                    <input className="form-control" onChange={(e)=>setLastName(e.target.value)} value={lastName} name="lastName" type="text" />
-                </div>
-                <div className="">
-                    <label htmlFor="">Email:</label>
-                    <input className="form-control" onChange={(e)=>setEmail(e.target.value)} value={email} name="email" type="email" />
-                </div>
-                <div className="">
-                    <label htmlFor="">Password:</label>
-                    <input className="form-control" onChange={(e)=>setPassword(e.target.value)} value={password} name="password" type="password" />
-                </div>
-                <div className="">
-                    <label htmlFor="">Confirm Password:</label>
-                    <input className="form-control" onChange={(e)=>setConfirmPassword(e.target.value)} value={confirmPassword} name="confirmPassword" type="password" />
-                </div>
-                <div className="row">
-                    <button className="btn hover hover-success" type="submit">Register</button>
-                </div>
-            </form>
-
-
-            <footer>
-                <p> Copyright &copy; 2022 Designed By: Brock Ericksen &nbsp; | &nbsp; Email: <a href="mailto:brockericksen@gmail.com">brockericksen@gmail.com</a></p>
-            </footer>
+            <Footer/>
         </div>
     );
 };
