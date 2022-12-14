@@ -1,11 +1,8 @@
-.App {
-  text-align: center;
-}
 
 .home-background{
-  background-image: url(imgs/bkg3.jpg);
-	animation: background 20s ease-in-out infinite;
-  height: 700px;
+  background-image: url(imgs/old1.jpg);
+	animation: background 30s ease-in-out infinite;
+  height: 680px;
 }
 
 @keyframes background { 
@@ -15,55 +12,13 @@
     75% { background-image: url(imgs/old4.jpg);}
 }
 
-footer{
-	position: fixed;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	color: white;
-	clear: both;
-	font-size: .90em;
-	font-style: italic;
-	text-align: center;
-	background-color: rgba(0, 0, 0, .5);
+.contact-background-img {
+  background-image: url(imgs/bkg66.jpg);
+  height: 600px;
 }
 
-footer a{
-  color: coral;
-}
-
-ul {
-  width: auto;
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  padding-right: 50px;
-  justify-content: space-between;
-  border: 3px solid black;
-  overflow: hidden;
-}
-
-li {
-  float: right;
-}
-
-li a {
-  display: block;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-}
-
-li a:hover {
-  background-color: rgb(45, 0, 171, 50%);
-}
-
-.navbar {
-  width: 30%;
-  float: right;
-}
-
-.banner-home{
-  display: flex;
-  
+.about-background-img {
+  background-image: url(imgs/bkg66.jpg);
+  height: 600px;
+  padding: 100px;
 }
